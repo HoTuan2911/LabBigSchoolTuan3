@@ -27,7 +27,26 @@
                 <span class="time">
                     @course.DateTime
                 </span>
+                <button data-course-id=" @course.Id" class="btn btn-default btn-sm" js-toggle-attendance" >Tham Gia</button>
             </div>
         </li>
     }
 </ul>
+@section scripts
+    {
+        <script>
+            $(document).ready(function (e) {
+                var button = $(e.target);
+                $.post("/api/attendances", { courseId: button.attr("data-course-id") })
+                .done(function () {
+                    button
+                        .removeClass("btn-default")
+                        .addClass("bth-info")
+                        .text("Da Tham Gia")
+                })
+                .fail(function () {
+                    alert("Co loi gi do da xay ra");
+                });
+            });
+        </script>
+    }

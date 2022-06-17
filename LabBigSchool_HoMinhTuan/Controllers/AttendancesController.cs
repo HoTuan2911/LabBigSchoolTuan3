@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Web.Http;
 using LabBigSchool_HoMinhTuan.Models;
 using Microsoft.AspNet.Identity;
+using LabBigSchool_HoMinhTuan.DTOs;
 
 namespace LabBigSchool_HoMinhTuan.Controllers
 {
@@ -19,12 +20,15 @@ namespace LabBigSchool_HoMinhTuan.Controllers
         }
 
         [HttpPost]
-        public IHttpActionResult Attend([FromBody] int courseId)
+        public IHttpActionResult Attend(AttendanceDto attendanceDto)
         {
+            var userId = User.Identity.GetUserId();
+            if (_dbContext.Attendances.Any(a => a.AttendeeId == userId && a.CourseId == attendanceDto.CourseId))
+                return BadRequest(" The Attendee already exist! ");
             var attendance = new Attendance
             {
-                CourseId = courseId,
-                AttendeeId = User.Identity.GetUserId()
+                CourseId = attendanceDto.CourseId,
+                AttendeeId = userId
             };
 
             _dbContext.Attendances.Add(attendance);
