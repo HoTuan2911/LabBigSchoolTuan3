@@ -6,6 +6,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using System.ComponentModel.DataAnnotations;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace LabBigSchool_HoMinhTuan.Models
 {
@@ -27,7 +28,8 @@ namespace LabBigSchool_HoMinhTuan.Models
 
         public ApplicationUser()
         {
-            
+            Followers = new Collection<Following>();
+            Followees = new Collection<Following>();
         }
     }
 }
